@@ -105,9 +105,10 @@ Because everything is on the same machine, backtalk writes the face state
 
 - **Windows 10/11** with a microphone and speakers
 - **Hermes agent installed & working** on this machine (desktop app or `hermes` CLI)
+- **Python 3** — [python.org](https://www.python.org/downloads/) (needed to run the face server; add to PATH)
 - **uv** — [astral.sh/uv](https://astral.sh/uv)
 - ~1 GB free for the local voice models (downloaded on first run)
-- `git` (optional; only if cloning manually)
+- `git` (only to clone the two upstream repos)
 
 ### 1. Enable Hermes' API
 
@@ -170,7 +171,11 @@ cd backtalk
 Copy this repo's shim into backtalk and point backtalk at it:
 
 ```powershell
-copy <this-repo>\scripts\hermes_brain.py backtalk\hermes_brain.py
+# First, get this repo (or just the shim). Either clone it:
+git clone https://github.com/AfroPK/hermes-voice-face-stack C:\hermes-voice-face-stack
+# or download just the shim:
+#   curl.exe -o backtalk\hermes_brain.py https://raw.githubusercontent.com/AfroPK/hermes-voice-face-stack/main/scripts/hermes_brain.py
+copy C:\hermes-voice-face-stack\scripts\hermes_brain.py backtalk\hermes_brain.py
 ```
 
 Edit `backtalk/main.py`:
@@ -191,12 +196,14 @@ Create/edit `backtalk.json` so backtalk's signals go where the face reads:
 }
 ```
 
-Set the Hermes API env for backtalk (user env vars work best):
+Set the Hermes API env for backtalk. **Set them as persistent user variables** (not `$env:` in one shell) so backtalk picks them up no matter how it's launched:
 
 ```powershell
-$env:HERMES_API_URL   = "http://127.0.0.1:8642/v1"
-$env:HERMES_API_KEY   = "your-key"
+[Environment]::SetEnvironmentVariable("HERMES_API_URL", "http://127.0.0.1:8642/v1", "User")
+[Environment]::SetEnvironmentVariable("HERMES_API_KEY", "<your-32-char-key>", "User")
 ```
+
+> New env vars need a **new** terminal/process to take effect. Open a fresh PowerShell before launching backtalk.
 
 Run backtalk (first run downloads Whisper + Kokoro models):
 
