@@ -1,0 +1,17 @@
+# Local / generated
+*.env
+.env
+.env.*
+!*.env.example
+signal*/  /.voice_state
+/.voice_waveform
+*.bak
+__pycache__/
+*.pyc
+
+# Operator secrets — never commit
+*_key.txt
+hermes_key*
+face_key*
+*api_key*
+*secret*
