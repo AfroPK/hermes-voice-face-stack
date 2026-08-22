@@ -16,6 +16,7 @@ instead of Claude's SDK. That's it.
 import asyncio
 import json
 import os
+import uuid
 
 import httpx
 
@@ -25,6 +26,33 @@ from backtalk.vlog import log
 API_URL = os.environ.get("HERMES_API_URL", "http://localhost:8642/v1").rstrip("/")
 API_KEY = os.environ.get("HERMES_API_KEY", "")
 MODEL = os.environ.get("HERMES_MODEL", "hermes")
+
+
+def _repo_dir() -> str:
+    here = os.path.dirname(os.path.abspath(__file__))
+    return os.path.abspath(os.path.join(here, "..", ".."))
+
+
+def _session_id() -> str:
+    """Return a STABLE session id so every turn continues the SAME Hermes
+    conversation instead of starting fresh. Persisted to a file so it survives
+    backtalk restarts."""
+    sid_file = os.path.join(_repo_dir(), ".hermes_session_id")
+    try:
+        with open(sid_file) as f:
+            sid = f.read().strip()
+        if sid:
+            return sid
+    except OSError:
+        pass
+    sid = f"backtalk-{uuid.uuid4().hex[:16]}"
+    try:
+        with open(sid_file, "w") as f:
+            f.write(sid)
+    except OSError as e:
+        log(f"[hermes-brain] could not persist session id: {e}")
+    log(f"[hermes-brain] new conversation session: {sid}")
+    return sid
 
 
 class WarmBrain:
@@ -42,6 +70,8 @@ class WarmBrain:
         h = {"Content-Type": "application/json"}
         if API_KEY:
             h["Authorization"] = f"Bearer {API_KEY}"
+            # Continue the SAME Hermes conversation on every turn.
+            h["X-Hermes-Session-Id"] = _session_id()
         return h
 
     async def ask_stream(self, utterance: str):
