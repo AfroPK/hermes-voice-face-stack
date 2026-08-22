@@ -8,8 +8,12 @@
 <em><em>Turn your Hermes agent into a talking, face-having assistant on one Windows machine — press-and-hold **Home** to talk; a living circuit-board face listens, thinks, and speaks in sync. No Linux homelab required.</em></em>
 
 <!-- CREDIT AT TOP (as required by the original author's license) -->
-> 🧠 **Built on the excellent work of [Jared Rhodenizer (@jaredrhod)](https://github.com/jaredrhod).**
-> This repo **pulls [`backtalk`](https://github.com/jaredrhod/backtalk) and [`ai-visualizer`](https://github.com/jaredrhod/ai-visualizer) from his own repos** — we do not redistribute them. Those projects are AGPL-3.0; respect their terms. This repo only layers in a small shim that swaps the *brain* from Claude to **Hermes**, plus this single-box setup guide.
+> 🧠 **Built on the open work of [Jared Rhodenizer (@jaredrhod)](https://github.com/jaredrhod).**
+> This repo **pulls [`backtalk`](https://github.com/jaredrhod/backtalk) and [`ai-visualizer`](https://github.com/jaredrhod/ai-visualizer) from his own repos** — we do not redistribute them. Those projects are AGPL-3.0; respect their terms.
+> - [`backtalk`](https://github.com/jaredrhod/backtalk) — ears (Whisper STT), mouth (Kokoro TTS), push-to-talk loop. We only swap the brain; the voice code is entirely his.
+> - [`ai-visualizer`](https://github.com/jaredrhod/ai-visualizer) — the animated face + the `.voice_state`/`.voice_waveform` signal-bus convention.
+> - Both are part of his [`fullstack-agent`](https://github.com/jaredrhod/fullstack-agent) project (memory · voice · face · hands).
+> This repo only layers in a small shim that swaps the *brain* from Claude to **Hermes**, plus this single-box setup guide.
 
 <!-- BADGES -->
 ![GitHub release](https://img.shields.io/github/v/release/AfroPK/hermes-voice-face-stack?style=flat-square&color=22d3ee)
@@ -42,7 +46,6 @@
     - [4. Talk](#4-talk)
 - [Troubleshooting](#troubleshooting)
 - [Optional: Split machines](#optional-split-machines)
-- [Credits](#credits)
 - [License](#license)
 
 ---
@@ -226,18 +229,6 @@ Hermes on a server, face/voice on your PC? See [`docs/relay-option.md`](docs/rel
 
 ---
 
-## Credits
-
-Built on the open work of **Jared Rhodenizer ([@jaredrhod](https://github.com/jaredrhod))**:
-
-- **[`backtalk`](https://github.com/jaredrhod/backtalk)** — ears (Whisper STT), mouth (Kokoro TTS), push-to-talk loop. We only swapped the brain; the voice code is entirely his.
-- **[`ai-visualizer`](https://github.com/jaredrhod/ai-visualizer)** — the animated face + the `.voice_state`/`.voice_waveform` signal-bus convention.
-- These are part of his **[`fullstack-agent`](https://github.com/jaredrhod/fullstack-agent)** project (memory · voice · face · hands).
-
-We pull these from his own repositories (AGPL-3.0) rather than redistributing them, and credit him at the top per the required attribution. Please respect the original projects' licensing.
-
----
-
 ## License
 
-This tutorial repo (shim script + docs) is **MIT** — see [`LICENSE`](LICENSE). The upstream `backtalk` / `ai-visualizer` dependencies remain **AGPL-3.0** as in their respective repos.
+This tutorial repo (shim script + docs) is **MIT** — see [`LICENSE`](LICENSE). The upstream `backtalk` / `ai-visualizer` dependencies remain **AGPL-3.0** as in their respective repos (credited at the top).
