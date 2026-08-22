@@ -210,6 +210,26 @@ spoken back (Kokoro), and the face follows the whole time — all local.
 
 ---
 
+## Credits
+
+This stack is built on open work by **Jared Rhodenizer** ([@jaredrhod](https://github.com/jaredrhod)):
+
+- **backtalk** (`github.com/jaredrhod/backtalk`) — the ears (Whisper STT),
+  mouth (Kokoro TTS), and push-to-talk voice loop. We only swapped its brain
+  to Hermes via `scripts/hermes_brain.py`; the voice/keyboard/personality
+  code is entirely his.
+- **ai-visualizer** (`github.com/jaredrhod/ai-visualizer`) — the animated
+  "face" (the live circuit-board), and the `.voice_state` / `.voice_waveform`
+  signal-bus convention it animates from.
+- These are part of his larger **fullstack-agent** project
+  (`github.com/jaredrhod/fullstack-agent`), which assembles memory, voice,
+  face, and hands into one agent. This repo is a rewire of that stack so the
+  "brain" runs on **Hermes** instead of Claude, for a single Windows box.
+
+backtalk and ai-visualizer carry their own licenses (AGPL-3.0; see their
+repos). This tutorial repo is MIT-licensed (see `LICENSE`). Please respect
+the original projects' licensing.
+
 ## What backs this up (honest engineering notes)
 
 - The only Claude-specific part of backtalk was its `brain.py`; swapping one
